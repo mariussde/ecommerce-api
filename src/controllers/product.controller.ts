@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { ProductService } from '../services/product.service';
 import { Product, ProductQueryParams, SortOrder } from '../models/product.model';
+import { PaginatedResponse } from '../models/pagination.model';
 
 @Controller('products')
 export class ProductController {
@@ -11,9 +12,17 @@ export class ProductController {
     @Query('category') category?: string,
     @Query('sortBy') sortBy?: 'price',
     @Query('order') order?: SortOrder,
-  ): Promise<Product[]> {
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ): Promise<PaginatedResponse<Product>> {
     try {
-      return await this.productService.getAllProducts({ category, sortBy, order });
+      return await this.productService.getAllProducts({ 
+        category, 
+        sortBy, 
+        order,
+        page: page ? Number(page) : undefined,
+        limit: limit ? Number(limit) : undefined
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

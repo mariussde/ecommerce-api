@@ -80,22 +80,46 @@ VALUES
   ('Premium', 'premium'),
   ('Cities', 'cities');
 
--- Insert Products with direct category reference
+-- Insert Products across all categories
 INSERT INTO products (
   name, slug, description, price, stock_quantity, is_featured, image_url, category_id
 )
 VALUES
-  ('Laptop Pro 2024', 'laptop-pro-2024', 'High-end laptop with powerful specs and sleek design', 1499.99, 10, TRUE, 'https://example.com/images/laptop-pro-2024.jpg', 6),
-  ('Wireless Earbuds', 'wireless-earbuds', 'Noise-cancelling wireless earbuds with high-quality sound', 99.99, 50, FALSE, 'https://example.com/images/wireless-earbuds.jpg', 6),
-  ('Smartphone Max', 'smartphone-max', 'Latest generation smartphone with enhanced camera and battery life', 999.99, 20, FALSE, 'https://example.com/images/smartphone-max.jpg', 6),
-  ('4K Ultra Monitor', '4k-ultra-monitor', '32-inch 4K monitor with HDR support for immersive visuals', 499.99, 15, FALSE, 'https://example.com/images/4k-ultra-monitor.jpg', 6),
-  ('Gaming Keyboard', 'gaming-keyboard', 'Mechanical keyboard with customizable RGB lighting', 79.99, 35, FALSE, 'https://example.com/images/gaming-keyboard.jpg', 6),
-  ('External Hard Drive', 'external-hard-drive', 'Portable 1TB external hard drive for secure data storage', 59.99, 25, FALSE, 'https://example.com/images/external-hard-drive.jpg', 6),
-  ('Smartwatch Series 5', 'smartwatch-series-5', 'Water-resistant smartwatch with fitness tracking features', 199.99, 40, FALSE, 'https://example.com/images/smartwatch-series-5.jpg', 6),
-  ('Bluetooth Speaker', 'bluetooth-speaker', 'Portable Bluetooth speaker with long battery life', 49.99, 30, FALSE, 'https://example.com/images/bluetooth-speaker.jpg', 6),
-  ('HD Webcam', 'hd-webcam', '1080p HD webcam with built-in microphone', 39.99, 20, FALSE, 'https://example.com/images/hd-webcam.jpg', 6),
-  ('USB-C Hub', 'usb-c-hub', 'Multi-port USB-C hub with HDMI, USB 3.0, and SD card reader', 29.99, 45, FALSE, 'https://example.com/images/usb-c-hub.jpg', 6);
+  -- People Category
+  ('Portrait Photography Session', 'portrait-session', 'Professional portrait photography session', 299.99, 20, TRUE, 'https://example.com/images/portrait.jpg', 1),
+  ('Wedding Photography Package', 'wedding-package', 'Complete wedding day photography coverage', 1499.99, 10, FALSE, 'https://example.com/images/wedding.jpg', 1),
+  ('Family Photo Session', 'family-session', 'Outdoor family photography session', 199.99, 15, FALSE, 'https://example.com/images/family.jpg', 1),
 
+  -- Nature Category
+  ('Mountain Landscape Print', 'mountain-print', 'High-resolution mountain landscape print', 79.99, 50, FALSE, 'https://example.com/images/mountain.jpg', 2),
+  ('Forest Photography', 'forest-photo', 'Mystical forest scene in autumn', 89.99, 30, FALSE, 'https://example.com/images/forest.jpg', 2),
+  ('Ocean Sunset Canvas', 'ocean-sunset', 'Large canvas print of ocean sunset', 129.99, 25, FALSE, 'https://example.com/images/ocean.jpg', 2),
+
+  -- Food Category
+  ('Culinary Photography Pack', 'culinary-pack', 'Professional food photography collection', 149.99, 20, FALSE, 'https://example.com/images/culinary.jpg', 3),
+  ('Restaurant Menu Shoot', 'menu-shoot', 'Complete restaurant menu photography service', 399.99, 15, FALSE, 'https://example.com/images/menu.jpg', 3),
+  ('Food Blog Package', 'food-blog', 'Monthly food photography subscription', 199.99, 10, FALSE, 'https://example.com/images/food-blog.jpg', 3),
+
+  -- Landmarks Category
+  ('Famous Monuments Collection', 'monuments', 'Collection of world-famous monuments prints', 199.99, 30, FALSE, 'https://example.com/images/monuments.jpg', 4),
+  ('Historical Sites Portfolio', 'historical-sites', 'Curated portfolio of historical landmarks', 149.99, 25, FALSE, 'https://example.com/images/historical.jpg', 4),
+  ('Architecture Print Series', 'architecture', 'Modern architecture photography series', 179.99, 20, FALSE, 'https://example.com/images/architecture.jpg', 4),
+
+  -- Pets Category
+  ('Pet Portrait Session', 'pet-portrait', 'Professional pet photography session', 149.99, 30, FALSE, 'https://example.com/images/pet-portrait.jpg', 5),
+  ('Pet Action Photography', 'pet-action', 'Dynamic pet photography in motion', 199.99, 20, FALSE, 'https://example.com/images/pet-action.jpg', 5),
+  ('Pet Family Package', 'pet-family', 'Multi-pet family photo session', 249.99, 15, FALSE, 'https://example.com/images/pet-family.jpg', 5),
+
+  -- Premium Category
+  ('Aerial Photography Package', 'aerial-package', 'Professional drone photography service', 599.99, 10, FALSE, 'https://example.com/images/aerial.jpg', 6),
+  ('Commercial License Pack', 'commercial-license', 'Commercial usage rights for selected photos', 999.99, 5, FALSE, 'https://example.com/images/commercial.jpg', 6),
+  ('Private Event Coverage', 'private-event', 'Exclusive event photography service', 799.99, 8, FALSE, 'https://example.com/images/private-event.jpg', 6),
+
+  -- Cities Category
+  ('Cityscape Print Collection', 'cityscape', 'Urban landscape photography collection', 249.99, 25, FALSE, 'https://example.com/images/cityscape.jpg', 7),
+  ('Night City Photography', 'night-city', 'City lights and nighttime urban scenes', 179.99, 30, FALSE, 'https://example.com/images/night-city.jpg', 7),
+  ('Street Photography Series', 'street-series', 'Urban life and street photography collection', 199.99, 20, FALSE, 'https://example.com/images/street.jpg', 7);
+  
 -- Insert a Cart
 WITH inserted_cart AS (
   INSERT INTO carts (created_at, updated_at)

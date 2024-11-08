@@ -23,7 +23,7 @@
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository with Supabase integration for an e-commerce API.\
-Please keep in mind the api is hosted in a free tier plan so after 15 minutes of inactivity it´ll shutdown and **wake up time is around 50 seconds**.
+Please keep in mind the api is hosted in a free tier plan so after 15 minutes of inactivity it'll shutdown and **wake up time is around 50 seconds**.
 
 ## Project Setup
 

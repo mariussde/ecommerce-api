@@ -23,24 +23,28 @@ export class ProductService {
       query = query.order('price', { ascending: order === 'asc' });
     }
 
-    const { data: allProducts, error } = await query;
+    const { data: products, error } = await query;
     
     if (error) throw error;
 
-    if (allProducts && allProducts.length > 0) {
-      const featuredProduct = { ...allProducts[0], is_featured: true };
-      const otherProducts = allProducts.slice(1);
+    // Find the featured product
+    const featuredProduct = products?.find(product => product.is_featured);
+    
+    if (featuredProduct) {
+      // Get related products (excluding the featured product)
+      const relatedProducts = products
+        .filter(product => product.id !== featuredProduct.id)
+        .slice(0, 3);
       
-      // Select 3 related products
-      const relatedProducts = otherProducts.slice(0, 3);
-      
-      return [
-        { ...featuredProduct, related_products: relatedProducts },
-        ...otherProducts
-      ];
+      // Add related products only to the featured product
+      return products.map(product => 
+        product.id === featuredProduct.id
+          ? { ...product, related_products: relatedProducts }
+          : product
+      );
     }
 
-    return allProducts;
+    return products;
   }
 
   async getProductBySlug(slug: string): Promise<Product> {
@@ -53,15 +57,16 @@ export class ProductService {
     
     if (error) throw error;
 
-    // If this is the first product, add related products
-    const { data: allProducts } = await this.supabaseConfig
-      .getClient()
-      .from('products')
-      .select('*, categories!inner(*)');
+    // Only fetch related products if this is a featured product
+    if (product.is_featured) {
+      const { data: relatedProducts } = await this.supabaseConfig
+        .getClient()
+        .from('products')
+        .select('*, categories!inner(*)')
+        .neq('id', product.id)
+        .limit(3);
 
-    if (allProducts && allProducts[0]?.id === product.id) {
-      const relatedProducts = allProducts.slice(1, 4);
-      return { ...product, is_featured: true, related_products: relatedProducts };
+      return { ...product, related_products: relatedProducts };
     }
 
     return product;

@@ -25,22 +25,27 @@ export class ProductService {
       query = query.eq('categories.slug', params.category);
     }
 
+    // First get the total count for this query
+    const { count } = await query;
+    const total = count || 0;
+    const last_page = Math.ceil(total / limit);
+
+    // If requested page is greater than last page, adjust to last page
+    const adjustedPage = page > last_page ? (last_page || 1) : page;
+    const adjustedOffset = (adjustedPage - 1) * limit;
+
     // Apply sorting
     if (params?.sortBy === 'price') {
       const order = params.order || 'asc';
       query = query.order('price', { ascending: order === 'asc' });
     }
 
-    // Apply pagination
-    query = query.range(offset, offset + limit - 1);
+    // Apply pagination with adjusted values
+    query = query.range(adjustedOffset, adjustedOffset + limit - 1);
 
-    const { data: products, error, count } = await query;
+    const { data: products, error } = await query;
     
     if (error) throw error;
-
-    // Calculate pagination metadata
-    const total = count || 0;
-    const last_page = Math.ceil(total / limit);
 
     // Handle featured product logic
     const featuredProduct = products?.find(product => product.is_featured);
@@ -62,7 +67,7 @@ export class ProductService {
       data: processedProducts,
       meta: {
         total,
-        page,
+        page: adjustedPage, // Return the adjusted page number
         last_page,
         limit
       }

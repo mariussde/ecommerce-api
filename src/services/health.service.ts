@@ -32,7 +32,7 @@ export class HealthService {
     }
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async dailyHealthCheck() {
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:4000';
